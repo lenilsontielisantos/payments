@@ -1,0 +1,30 @@
+version: '3'
+
+services:
+  server:
+    container_name: app-payments
+    build: '.'
+    volumes:
+      - ./:/node-app
+      - ./node_modules:/node-app/node_modules
+    environment:
+      NODE_ENV: development
+    depends_on:
+      - mondodb
+    ports:
+      - '3333:3333'
+    networks:
+      - payments_network
+  mongodb:
+    image: 'mongo'
+    container_name: mongodb
+    ports:
+      - '27017:27017'
+    volumes:
+      - ./data/db:/data/db
+    networks:
+      - payments_network
+
+networks: 
+  financas_network:
+    driver: bridge
